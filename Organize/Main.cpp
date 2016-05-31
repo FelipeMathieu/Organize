@@ -1,38 +1,15 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <time.h>
+#include "mPaths.h"
 
 using namespace std;
 
-void main(void)
+void main()
 {
-	ifstream fin;
-	string a, b;
-	int count = 0;
-	clock_t k = NULL, m = NULL, result = NULL;
-	float r;
+	mPaths *mP = new mPaths();
+	int n;
 
-	cout << "Insira a palavra a ser pesquisada: ";
-	cin >> a;
+	n = mP->countPath(L"BaseDeTxt/*.txt");
 
-	fin.open("palavras.txt");
+	cout << "Numero de arquivos: " << n << endl;
 
-	k = clock();
-	while (!fin.eof())
-	{
-		fin >> b;
-		if (a == b)
-		{
-			count += 1;
-		}
-	}
-	m = clock();
-
-	result = m - k;
-	r = ((float)result) / CLOCKS_PER_SEC;
-
-	cout << "A palavra '" << a << "' aparece " << count << " vezes no arquivo." << endl;
-	cout << "Tempo de execucao: " << r << endl;
-	fin.close();
+	free(mP);
 }
