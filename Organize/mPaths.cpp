@@ -25,19 +25,20 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 		{
 			nome = ffd.cFileName;
 			nameFile.append(nome.begin(), nome.end());
-
 			if (nameFile.compare("...") != 0 && nameFile.compare(".") != 0)
 			{
 				nameFile = "";
 				nome = ffd.cFileName;
 				nameFile.append(nome.begin(), nome.end());
-				cout << "Nome do arquivo: " << nameFile << endl;
+				//cout << "Nome do arquivo: " << nameFile << endl;
 
 				nomeDiretorio = diretorio + nameFile + "/";
 				nameFile = diretorio + nameFile + "/*.txt";
 				nome = L"";
 				nome.append(nameFile.begin(), nameFile.end());
 				file2 = (wchar_t *)nome.c_str();
+			//	wcout << file2;
+								
 				hFind2 = FindFirstFile(file2, &ffd2);
 
 				if (hFind2 != INVALID_HANDLE_VALUE)
@@ -61,8 +62,9 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 					nome = ffd.cFileName;
 					nameFile.append(nome.begin(), nome.end());
 					cW = countWordFile(diretorio + nameFile);
-					cout << "Numero de palavras no arquivo:  " << cW << endl << endl;
+					this->meAjuda += cW;
 					countP++;
+					//cout << "Numero de palavras no arquivos: " << cW << endl << endl;
 					cW = 0;
 					nameFile = "";
 				}
@@ -101,6 +103,13 @@ int mPaths::countWordFile(string name)
 			while (!f.eof())
 			{
 				f >> word;
+
+				word = filtraPalavra(word);
+
+				if (find(this->words.begin(), this->words.end(), word) == this->words.end())
+				{
+					this->words.push_back(word);
+				}
 				countW++;
 			}
 		}
@@ -108,4 +117,50 @@ int mPaths::countWordFile(string name)
 	}
 
 	return countW;
+}
+
+string mPaths::filtraPalavra(string p)
+{
+	char c[] = "().,;:{}[]";
+
+	for (unsigned int i = 0; i < p.size(); ++i)
+	{
+		p.erase(remove(p.begin(), p.end(), c[i]), p.end());
+	}
+
+	//transform(p.begin(), p.end(), p.begin(), tolower);
+
+	return p;
+}
+
+void mPaths::gravaPalavras()
+{
+	ofstream palavras("Palavras_nao_repitidas.txt");
+	string aux;
+
+	if (palavras.is_open())
+	{
+		for (int i = 0 ; i < this->words.size(); i++)
+		{
+			palavras << this->words.at(i) << " ";
+		}
+	}
+	else
+	{
+		cout << "Bugou ai." << endl;
+	}
+
+	palavras.close();
+}
+
+int mPaths::verificaPalavra(string p)
+{
+	if (find(p.begin(), p.end(), '.') != p.end() || find(p.begin(), p.end(), ',') != p.end() || find(p.begin(), p.end(), ';') != p.end() || find(p.begin(), p.end(), ':') != p.end())
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
 }

@@ -11,7 +11,7 @@ void main()
 	wchar_t *d;
 	wstring_convert<codecvt<wchar_t, char, mbstate_t>> conv;
 	wstring wstr;
-	
+
 	cout << "Insira o nome do diretorio: ";
 	cin >> w;
 	cout << "Insira o tipo do arquivo: ";
@@ -27,7 +27,12 @@ void main()
 
 	n = mP->countPath(d, w + '/');
 
-	cout << "Numero de arquivos: " << n << endl << endl;
+	cout << "Numero de arquivos: " << n << endl;
+	cout << "Numero de palavras totais: " << mP->Get_meAjuda() << endl;
+	cout << "Numero de palavras nao repitidas: " << mP->Get_nWords() << endl << endl;
+
+	cout << "Salvando..." << endl;
+	mP->gravaPalavras();
 
 	free(mP);
 }
