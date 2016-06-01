@@ -11,11 +11,12 @@ void main()
 	wchar_t *d;
 	wstring_convert<codecvt<wchar_t, char, mbstate_t>> conv;
 	wstring wstr;
-
+	
 	cout << "Insira o nome do diretorio: ";
 	cin >> w;
 	cout << "Insira o tipo do arquivo: ";
 	cin >> typeF;
+	cout << endl;
 
 	local_Type = w + "/*." + typeF;
 	wstr = conv.from_bytes(local_Type);
