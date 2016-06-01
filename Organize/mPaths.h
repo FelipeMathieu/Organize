@@ -17,7 +17,7 @@ private:
 
 public:
 
-	int countPath(wchar_t *wC);
+	int countPath(wchar_t *wC, string diretorio);
 	int countWordFile(string name);
 
 	mPaths();

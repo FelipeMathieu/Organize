@@ -1,32 +1,32 @@
 #include "mPaths.h"
+#include <locale>
 
 using namespace std;
 
 void main()
 {
 	mPaths *mP = new mPaths();
-	ifstream f2;
 	int n, countF2 = 0;
-	string w;
+	string w, typeF, local_Type;
+	wchar_t *d;
+	wstring_convert<codecvt<wchar_t, char, mbstate_t>> conv;
+	wstring wstr;
 
-	n = mP->countPath(L"BaseDeTxt/*.txt");
+	cout << "Insira o nome do diretorio: ";
+	cin >> w;
+	cout << "Insira o tipo do arquivo: ";
+	cin >> typeF;
+
+	local_Type = w + "/*." + typeF;
+	wstr = conv.from_bytes(local_Type);
+	d = (wchar_t *)wstr.c_str();
+
+	/*wcout << endl << d << endl;
+	wcout << wstr << endl;*/
+
+	n = mP->countPath(d, w + '/');
 
 	cout << "Numero de arquivos: " << n << endl << endl;
 
-	f2.open("BaseDeTxt/D11.txt");
-	if (f2.is_open())
-	{
-		while (!f2.eof())
-		{
-			f2 >> w;
-			countF2++;
-		}
-		cout << "Numero de palavras em D11: " << countF2 << endl;
-	}
-	else
-	{
-		cout << "Erro ao abrir arquivo." << endl;
-	}
-	f2.close();
 	free(mP);
 }

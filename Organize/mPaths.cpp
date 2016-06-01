@@ -8,7 +8,7 @@ mPaths::~mPaths()
 {
 }
 
-int mPaths::countPath(wchar_t *wC)
+int mPaths::countPath(wchar_t *wC, string diretorio)
 {
 	int countP = 0, cW = 0;
 	wchar_t *file = wC;
@@ -26,7 +26,7 @@ int mPaths::countPath(wchar_t *wC)
 			nome = ffd.cFileName;
 			nameFile.append(nome.begin(), nome.end());
 			cout << "Nome do arquivo: " << nameFile << endl;
-			cW = countWordFile(nameFile);
+			cW = countWordFile(diretorio+nameFile);
 			cout << "Numero de palavras no arquivo: " << cW << endl << endl;
 			countP++;
 			cW = 0;
@@ -45,7 +45,8 @@ int mPaths::countPath(wchar_t *wC)
 
 int mPaths::countWordFile(string name)
 {
-	ifstream f(name.c_str());
+	string nF = name;
+	ifstream f(nF.c_str());
 	int countW = 0;
 	string word;
 
@@ -62,5 +63,6 @@ int mPaths::countWordFile(string name)
 		}
 	}
 	f.close();
+
 	return countW;
 }
