@@ -18,6 +18,7 @@ private:
 public:
 
 	int countPath(wchar_t *wC);
+	int countWordFile(string name);
 
 	mPaths();
 	~mPaths();
