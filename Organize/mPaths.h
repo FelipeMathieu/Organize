@@ -33,8 +33,9 @@ public:
 	void gravaPalavras();
 	string filtraPalavra(string p);
 	int verificaPalavra(string p);
+	void comparaPalavras(wchar_t *wC, string diretorio);
+	vector<int> *countFreq(string nomeArquivo);
 
 	mPaths();
 	~mPaths();
 };
-

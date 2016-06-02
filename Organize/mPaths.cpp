@@ -37,8 +37,8 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 				nome = L"";
 				nome.append(nameFile.begin(), nameFile.end());
 				file2 = (wchar_t *)nome.c_str();
-			//	wcout << file2;
-								
+				//	wcout << file2;
+
 				hFind2 = FindFirstFile(file2, &ffd2);
 
 				if (hFind2 != INVALID_HANDLE_VALUE)
@@ -128,7 +128,7 @@ string mPaths::filtraPalavra(string p)
 		p.erase(remove(p.begin(), p.end(), c[i]), p.end());
 	}
 
-	//transform(p.begin(), p.end(), p.begin(), tolower);
+	transform(p.begin(), p.end(), p.begin(), tolower);
 
 	return p;
 }
@@ -140,7 +140,7 @@ void mPaths::gravaPalavras()
 
 	if (palavras.is_open())
 	{
-		for (int i = 0 ; i < this->words.size(); i++)
+		for (int i = 0; i < this->words.size(); i++)
 		{
 			palavras << this->words.at(i) << " ";
 		}
@@ -163,4 +163,87 @@ int mPaths::verificaPalavra(string p)
 	{
 		return 1;
 	}
+}
+
+void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
+{
+	wchar_t *file = wC;
+	WIN32_FIND_DATA ffd;
+	HANDLE hFind = INVALID_HANDLE_VALUE;
+	string nameFile;
+	wstring nome;
+	ofstream Freq_Palavras("Freq_Palavras.txt");
+	vector<int> freq;
+
+	hFind = FindFirstFile(file, &ffd);
+
+	if (hFind != INVALID_HANDLE_VALUE && Freq_Palavras.is_open())
+	{
+		do
+		{
+			nome = ffd.cFileName;
+			nameFile.append(nome.begin(), nome.end());
+			if (nameFile.compare("...") != 0 && nameFile.compare(".") != 0)
+			{
+				nameFile = "";
+				nome = ffd.cFileName;
+				nameFile.append(nome.begin(), nome.end());
+
+				freq = *countFreq(diretorio+nameFile);
+				
+				Freq_Palavras << nameFile << "---> ";
+				 
+				for (int i = 0; i < freq.size(); i++)
+				{
+					Freq_Palavras << freq.at(i) << " ";
+				}
+
+				Freq_Palavras << endl;
+
+				nameFile = "";
+			}
+		} while (FindNextFile(hFind, &ffd) == TRUE);
+	}
+	else
+	{
+		cout << "Failed to find path" << endl;
+	}
+
+	FindClose(hFind);
+	Freq_Palavras.close();
+}
+
+vector<int> *mPaths::countFreq(string nomeArquivo)
+{
+	ifstream arq(nomeArquivo);
+	string word;
+	vector<int> *freq = new vector<int>;
+	vector<string> aux;
+	int count = 0;
+
+	if (arq.is_open())
+	{
+		while (!arq.eof())
+		{
+			arq >> word;
+			word = filtraPalavra(word);
+			aux.push_back(word);
+		}
+	}
+	arq.close();
+
+	for (int i = 0; i < this->words.size(); i++)
+	{
+		for (int j = 0; j < aux.size(); j++)
+		{
+			if (aux.at(j) == this->words.at(i))
+			{
+				count += 1;
+			}
+		}
+		freq->push_back(count);
+		count = 0;
+	}
+
+	return freq;
 }
