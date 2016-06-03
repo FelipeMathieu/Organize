@@ -173,7 +173,7 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 	string nameFile;
 	wstring nome;
 	ofstream Freq_Palavras("Freq_Palavras.txt");
-	vector<int> freq;
+	map<string, int> freq;
 
 	hFind = FindFirstFile(file, &ffd);
 
@@ -189,13 +189,13 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 				nome = ffd.cFileName;
 				nameFile.append(nome.begin(), nome.end());
 
-				freq = *countFreq(diretorio+nameFile);
+				freq = countFreq(diretorio+nameFile);
 				
-				Freq_Palavras << nameFile << "---> ";
+				//Freq_Palavras << nameFile << "---> ";
 				 
 				for (int i = 0; i < freq.size(); i++)
 				{
-					Freq_Palavras << freq.at(i) << " ";
+					Freq_Palavras << freq[this->words.at(i)] << " ";
 				}
 
 				Freq_Palavras << endl;
@@ -213,11 +213,11 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 	Freq_Palavras.close();
 }
 
-vector<int> *mPaths::countFreq(string nomeArquivo)
+map<string, int> mPaths::countFreq(string nomeArquivo)
 {
 	ifstream arq(nomeArquivo);
 	string word;
-	vector<int> *freq = new vector<int>;
+	map<string, int> freq;
 	vector<string> aux;
 	int count = 0;
 
@@ -241,7 +241,7 @@ vector<int> *mPaths::countFreq(string nomeArquivo)
 				count += 1;
 			}
 		}
-		freq->push_back(count);
+		freq.insert(make_pair(this->words.at(i), count));
 		count = 0;
 	}
 

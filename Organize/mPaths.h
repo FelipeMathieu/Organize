@@ -9,6 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ public:
 	string filtraPalavra(string p);
 	int verificaPalavra(string p);
 	void comparaPalavras(wchar_t *wC, string diretorio);
-	vector<int> *countFreq(string nomeArquivo);
+	map<string, int> countFreq(string nomeArquivo);
 
 	mPaths();
 	~mPaths();
