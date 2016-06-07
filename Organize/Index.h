@@ -16,8 +16,8 @@ public:
 		this->qtdeArq = n;
 	}
 	int Get_qtdeArq();
-	void geraDF(int tamanho);
-	void geraIDF(vector<int> df);
-	void geraU();
+	void geraDF(int tamanho, mPaths m);
+	void geraIDF(vector<int> df, mPaths m);
+	void geraU(mPaths m);
 };
 

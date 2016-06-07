@@ -39,5 +39,5 @@ void main()
 	mP.gravaPalavras();
 	mP.comparaPalavras(d, w + '/');
 
-	ind->geraDF(mP.Get_nWords());
+	ind->geraDF(mP.Get_nWords(), mP);
 }

@@ -5,7 +5,7 @@ int Index::Get_qtdeArq()
 	return this->qtdeArq;
 }
 
-void Index::geraDF(int tamanho)
+void Index::geraDF(int tamanho, mPaths m)
 {
 	this->wordSize = tamanho;
 	ifstream arq("Freq_Palavras.txt");
@@ -60,10 +60,10 @@ void Index::geraDF(int tamanho)
 	arq.close();
 	d.close();
 
-	geraIDF(DF);
+	geraIDF(DF, m);
 }
 
-void Index::geraIDF(vector<int> df)
+void Index::geraIDF(vector<int> df, mPaths m)
 {
 	ofstream idf("IDF.txt");
 	int j = 0;
@@ -92,10 +92,10 @@ void Index::geraIDF(vector<int> df)
 
 	idf.close();
 
-	geraU();
+	geraU(m);
 }
 
-void Index::geraU()
+void Index::geraU(mPaths m)
 {
 	ifstream freq("Freq_Palavras.txt");
 	ofstream U("TF_IDF.txt");
@@ -111,7 +111,7 @@ void Index::geraU()
 			{
 				if (j1 != j)
 				{
-					U << "DOC" << j1 + 1 << " ---> ";
+					U << m.GetNameOfFiles().at(j1) << " ---> ";
 					j1++;
 				}
 
@@ -133,4 +133,7 @@ void Index::geraU()
 	{
 		cout << "Erro!" << endl;
 	}
+
+	freq.close();
+	U.close();
 }

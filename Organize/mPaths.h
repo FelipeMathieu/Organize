@@ -18,7 +18,9 @@ class mPaths
 private:
 	int nPath;
 	vector<string> words;
+	vector<string> nomeArquivo;
 	int meAjuda = 0;
+	int nFiles;
 
 public:
 	int countPath(wchar_t *wC, string diretorio);
@@ -36,6 +38,10 @@ public:
 	int verificaPalavra(string p);
 	void comparaPalavras(wchar_t *wC, string diretorio);
 	map<string, int> countFreq(string nomeArquivo);
+	vector<string> GetNameOfFiles()
+	{
+		return this->nomeArquivo;
+	}
 
 	mPaths();
 	~mPaths();
