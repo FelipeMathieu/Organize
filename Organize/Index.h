@@ -8,6 +8,7 @@ class Index
 private:
 	int qtdeArq = 0;
 	vector<double> IDF;
+	map<string, vector<double>> U;
 	int wordSize;
 
 public:

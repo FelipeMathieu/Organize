@@ -99,7 +99,7 @@ void Index::geraU(mPaths m)
 {
 	ifstream freq("Freq_Palavras.txt");
 	ofstream U("TF_IDF.txt");
-	string word;
+	string word, nameFile;
 	int i = 0, aux = 0, j = 1, j1 = 0;
 
 	if (freq.is_open() && U.is_open())
@@ -111,13 +111,15 @@ void Index::geraU(mPaths m)
 			{
 				if (j1 != j)
 				{
-					U << m.GetNameOfFiles().at(j1) << " ---> ";
+					nameFile = m.GetNameOfFiles().at(j1);
+					U << nameFile << " ---> ";
 					j1++;
 				}
 
 				aux = stoi(word, nullptr, 10);
 
 				U << this->IDF.at(i)*aux << " ";
+				this->U[nameFile].push_back(this->IDF.at(i)*aux);
 				i++;
 	
 			}

@@ -175,10 +175,10 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 	wstring nome;
 	ofstream Freq_Palavras("Freq_Palavras.txt");
 	map<string, int> freq;
-	int i = 0;
-
+	int j = 0;
+	
+	//this->freqWords = map<string, int>(this->nFiles, this->Get_nWords());
 	this->nomeArquivo = vector<string>(this->nFiles);
-
 
 	hFind = FindFirstFile(file, &ffd);
 
@@ -193,8 +193,8 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 				nameFile = "";
 				nome = ffd.cFileName;
 				nameFile.append(nome.begin(), nome.end());
-				this->nomeArquivo.at(i) = nameFile;
-				i++;
+				this->nomeArquivo.at(j) = nameFile;
+				j++;
 
 				freq = countFreq(diretorio+nameFile);
 				
@@ -203,6 +203,7 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 				for (int i = 0; i < freq.size(); i++)
 				{
 					Freq_Palavras << freq[this->words.at(i)] << " ";
+					this->freqWords[nameFile].push_back(freq[this->words.at(i)]);
 				}
 
 				Freq_Palavras << "BILL " << endl;

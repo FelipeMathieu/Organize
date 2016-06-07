@@ -19,6 +19,7 @@ private:
 	int nPath;
 	vector<string> words;
 	vector<string> nomeArquivo;
+	map<string, vector<int>> freqWords;
 	int meAjuda = 0;
 	int nFiles;
 
@@ -41,6 +42,10 @@ public:
 	vector<string> GetNameOfFiles()
 	{
 		return this->nomeArquivo;
+	}
+	map<string, vector<int>> GetfreqWords()
+	{
+		return this->freqWords;
 	}
 
 	mPaths();
