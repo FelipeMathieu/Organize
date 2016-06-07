@@ -199,7 +199,6 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 				}
 
 				Freq_Palavras << "BILL " << endl;
-
 				nameFile = "";
 			}
 		} while (FindNextFile(hFind, &ffd) == TRUE);
