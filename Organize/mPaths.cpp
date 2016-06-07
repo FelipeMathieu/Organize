@@ -198,7 +198,7 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 					Freq_Palavras << freq[this->words.at(i)] << " ";
 				}
 
-				Freq_Palavras << endl;
+				Freq_Palavras << "\n";
 
 				nameFile = "";
 			}
