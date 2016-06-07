@@ -40,6 +40,7 @@ vector<string> SearchFile::split(const string &s)
 			i = j;
 		}
 	}
+
 	return ret;
 }
 
@@ -78,7 +79,7 @@ void SearchFile::geraV(map<string, int> fPalavras)
 void SearchFile::calcSim()
 {
 	map<string, double> sim;
-	vector<double> aux, aux2;
+	vector<double> aux = this->V, aux2;
 	double result = 0.0;
 
 	for (int i = 0; i < this->in.Get_qtdeArq(); i++)
@@ -88,10 +89,9 @@ void SearchFile::calcSim()
 
 	for (int i = 0; i < this->m.GetNameOfFiles().size(); i++)
 	{
-		aux = this->V;
 		aux2 = this->in.Get_U()[this->m.GetNameOfFiles().at(i)];
 
-		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, this->m.GetNameOfFiles().size());
+		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, aux.size());
 	}
 
 	cout << endl << "Arquivos compativeis: " << endl;
@@ -101,8 +101,8 @@ void SearchFile::calcSim()
 		{
 			cout << this->m.GetNameOfFiles().at(i) << " --> " << setiosflags(ios::fixed) << setprecision(2) << (sim[this->m.GetNameOfFiles().at(i)] * 100) << "%";
 		}
+		cout << endl;
 	}
-	cout << endl << endl;
 }
 
 double SearchFile::cosine_similarity(vector<double> A, vector<double> B, unsigned int Vector_Length)
