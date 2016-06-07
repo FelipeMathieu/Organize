@@ -10,33 +10,35 @@ void Index::geraDF(int tamanho)
 	ifstream arq("Freq_Palavras.txt");
 	ofstream d("DF.txt");
 	vector<string> p;
-	int *DF, i = 0;
-	int freq;
+	int i = 0;
+	vector<int> DF(tamanho);
+	int freq = 0;
 	string word;
 
-	DF = (int*)malloc(tamanho * sizeof(int));
-
-	for (int i = 0; i < tamanho; i++)
+	for (int j = 0; j < tamanho; j++)
 	{
-		DF[i] = 0;
+		DF.at(j) = 0;
 	}
 
 	if (arq.is_open())
 	{
 		while (!arq.eof())
 		{
-			arq >> freq;
-			if (freq != 0)
+			arq >> word;
+			if (word.compare("BILL") != 0)
 			{
-				if (freq != '\n')
+				freq = stoi(word, nullptr, 10);
+				if (freq > 0)
 				{
-					DF[i] += 1;
-					i++;
+					DF.at(i) += 1;
+					//i++;
+					freq = 0;
 				}
-				else
-				{
-					i = 0;
-				}
+				i++;
+			}
+			else
+			{
+				i = 0;
 			}
 		}
 	}
@@ -47,9 +49,9 @@ void Index::geraDF(int tamanho)
 
 	if (d.is_open())
 	{
-		for (int i = 0; i < tamanho; i++)
+		for (int j = 0; j < tamanho; j++)
 		{
-			d << DF[i] << " ";
+			d << DF.at(j) << " ";
 		}
 	}
 	else
