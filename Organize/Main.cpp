@@ -1,6 +1,9 @@
 #include "mPaths.h"
 #include "Index.h"
 #include <locale>
+#include "SearchFile.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -9,10 +12,12 @@ void main()
 	int n;
 	mPaths mP;
 	string w, typeF, local_Type;
+	string pesquisa = "";
 	wchar_t *d;
 	wstring_convert<codecvt<wchar_t, char, mbstate_t>> conv;
 	wstring wstr;
 	Index *ind;
+	SearchFile *s;
 
 	cout << "Insira o nome do diretorio: ";
 	cin >> w;
@@ -40,4 +45,10 @@ void main()
 	mP.comparaPalavras(d, w + '/');
 
 	ind->geraDF(mP.Get_nWords(), mP);
+
+	cout << "Informe o que deseja procurar: ";
+	cin.ignore(256, '\n');
+	getline(cin, pesquisa);
+
+	s = new SearchFile(pesquisa);
 }
