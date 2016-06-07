@@ -71,4 +71,47 @@ void SearchFile::geraV(map<string, int> fPalavras)
 	{
 		this->V.push_back(this->in.Get_IDF().at(i)*fPalavras[this->m.Get_Words().at(i)]);
 	}
+
+	this->calcSim();
+}
+
+void SearchFile::calcSim()
+{
+	map<string, double> sim;
+	vector<double> aux, aux2;
+	double result = 0.0;
+
+	for (int i = 0; i < this->in.Get_qtdeArq(); i++)
+	{
+		sim[this->m.GetNameOfFiles().at(i)] = 0.0;
+	}
+
+	for (int i = 0; i < this->m.GetNameOfFiles().size(); i++)
+	{
+		aux = this->V;
+		aux2 = this->in.Get_U()[this->m.GetNameOfFiles().at(i)];
+
+		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, this->m.GetNameOfFiles().size());
+	}
+
+	cout << endl << "Arquivos compativeis: " << endl;
+	for (int i = 0; i < sim.size(); i++)
+	{
+		if (sim[this->m.GetNameOfFiles().at(i)] > 0.0)
+		{
+			cout << this->m.GetNameOfFiles().at(i) << " --> " << setiosflags(ios::fixed) << setprecision(2) << (sim[this->m.GetNameOfFiles().at(i)] * 100) << "%";
+		}
+	}
+	cout << endl << endl;
+}
+
+double SearchFile::cosine_similarity(vector<double> A, vector<double> B, unsigned int Vector_Length)
+{
+	double dot = 0.0, denom_a = 0.0, denom_b = 0.0;
+	for (unsigned int i = 0u; i < Vector_Length; ++i) {
+		dot += A.at(i) * B.at(i);
+		denom_a += A.at(i) * A.at(i);
+		denom_b += B.at(i) * B.at(i);
+	}
+	return dot / (sqrt(denom_a) * sqrt(denom_b));
 }

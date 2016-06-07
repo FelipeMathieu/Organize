@@ -2,6 +2,7 @@
 
 #include"mPaths.h"
 #include"Index.h"
+#include <iomanip>
 
 class SearchFile
 {
@@ -18,5 +19,7 @@ public:
 	~SearchFile();
 	void geraV(map<string, int> fPalavras);
 	void freqPesquisa();
+	void calcSim();
+	double cosine_similarity(vector<double> A, vector<double> B, unsigned int Vector_Length);
 };
 

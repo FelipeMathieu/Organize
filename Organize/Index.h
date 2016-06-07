@@ -24,5 +24,9 @@ public:
 	{
 		return this->IDF;
 	}
+	map<string, vector<double>> Get_U()
+	{
+		return this->U;
+	}
 };
 
