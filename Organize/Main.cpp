@@ -16,7 +16,7 @@ void main()
 	wchar_t *d;
 	wstring_convert<codecvt<wchar_t, char, mbstate_t>> conv;
 	wstring wstr;
-	Index *ind;
+	Index ind;
 	SearchFile *s;
 
 	cout << "Insira o nome do diretorio: ";
@@ -34,9 +34,9 @@ void main()
 
 	n = mP.countPath(d, w + '/');
 
-	ind = new Index(n);
+	ind.IndexS(n);
 
-	cout << "Numero de arquivos: " << ind->Get_qtdeArq() << endl;
+	cout << "Numero de arquivos: " << ind.Get_qtdeArq() << endl;
 	cout << "Numero de palavras totais: " << mP.Get_meAjuda() << endl;
 	cout << "Numero de palavras nao repitidas: " << mP.Get_nWords() << endl << endl;
 
@@ -44,11 +44,12 @@ void main()
 	mP.gravaPalavras();
 	mP.comparaPalavras(d, w + '/');
 
-	ind->geraDF(mP.Get_nWords(), mP);
+	ind.geraDF(mP.Get_nWords(), mP);
 
 	cout << "Informe o que deseja procurar: ";
 	cin.ignore(256, '\n');
 	getline(cin, pesquisa);
 
-	s = new SearchFile(pesquisa);
+	s = new SearchFile(pesquisa, mP, ind);
+	s->freqPesquisa();
 }

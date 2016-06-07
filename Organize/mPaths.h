@@ -47,6 +47,10 @@ public:
 	{
 		return this->freqWords;
 	}
+	vector<string> Get_Words()
+	{
+		return words;
+	}
 
 	mPaths();
 	~mPaths();

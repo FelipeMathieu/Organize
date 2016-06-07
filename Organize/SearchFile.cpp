@@ -1,9 +1,13 @@
 #include "SearchFile.h"
 
-SearchFile::SearchFile(string p)
+SearchFile::SearchFile(string p, mPaths m, Index in)
 {
-	this->pesquisa = split(p);
-	cout << endl;
+	string aux;
+
+	this->m = m;
+	aux = this->m.filtraPalavra(p);
+	this->pesquisa = split(aux);
+	this->in = in;
 }
 
 SearchFile::~SearchFile()
@@ -37,4 +41,34 @@ vector<string> SearchFile::split(const string &s)
 		}
 	}
 	return ret;
+}
+
+void SearchFile::freqPesquisa()
+{
+	map<string, int> freqP;
+	int j = 0;
+	int count = 0;
+
+	for (int i = 0; i < this->m.Get_Words().size(); i++)
+	{
+		for (int j = 0; j < this->pesquisa.size(); j++)
+		{
+			if (this->pesquisa.at(j) == this->m.Get_Words().at(i))
+			{
+				count += 1;
+			}
+		}
+		freqP.insert(make_pair(this->m.Get_Words().at(i), count));
+		count = 0;
+	}
+
+	geraV(freqP);
+}
+
+void SearchFile::geraV(map<string, int> fPalavras)
+{
+	for (int i = 0; i < fPalavras.size(); i++)
+	{
+		this->V.push_back(this->in.Get_IDF().at(i)*fPalavras[this->m.Get_Words().at(i)]);
+	}
 }

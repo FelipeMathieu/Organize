@@ -12,7 +12,7 @@ private:
 	int wordSize;
 
 public:
-	Index(int n)
+	void IndexS(int n)
 	{
 		this->qtdeArq = n;
 	}
@@ -20,5 +20,9 @@ public:
 	void geraDF(int tamanho, mPaths m);
 	void geraIDF(vector<int> df, mPaths m);
 	void geraU(mPaths m);
+	vector<double> Get_IDF()
+	{
+		return this->IDF;
+	}
 };
 
