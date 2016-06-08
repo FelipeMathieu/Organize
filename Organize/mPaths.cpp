@@ -16,6 +16,7 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 	HANDLE hFind = INVALID_HANDLE_VALUE, hFind2 = INVALID_HANDLE_VALUE;
 	string nameFile, nomeDiretorio;
 	wstring nome;
+	ofstream NameFiles("Save/NameFiles.txt");
 
 	hFind = FindFirstFile(file, &ffd);
 
@@ -56,7 +57,7 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 					} while (FindNextFile(hFind2, &ffd2));
 					FindClose(hFind2);
 				}
-				else
+				else if(NameFiles.is_open())
 				{
 					nameFile = "";
 					nome = ffd.cFileName;
@@ -66,6 +67,7 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 					countP++;
 					//cout << "Numero de palavras no arquivos: " << cW << endl << endl;
 					cW = 0;
+					NameFiles << nameFile << endl;
 					nameFile = "";
 				}
 			}
@@ -77,6 +79,7 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 	}
 
 	FindClose(hFind);
+	NameFiles.close();
 	this->nFiles = countP;
 
 	return countP;
@@ -136,7 +139,7 @@ string mPaths::filtraPalavra(string p)
 
 void mPaths::gravaPalavras()
 {
-	ofstream palavras("Palavras_nao_repitidas.txt");
+	ofstream palavras("Save/Palavras_nao_repitidas.txt");
 	string aux;
 
 	if (palavras.is_open())
@@ -173,10 +176,10 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 	HANDLE hFind = INVALID_HANDLE_VALUE;
 	string nameFile;
 	wstring nome;
-	ofstream Freq_Palavras("Freq_Palavras.txt");
+	ofstream Freq_Palavras("Save/Freq_Palavras.txt");
 	map<string, int> freq;
 	int j = 0;
-	
+
 	//this->freqWords = map<string, int>(this->nFiles, this->Get_nWords());
 	this->nomeArquivo = vector<string>(this->nFiles);
 
@@ -196,17 +199,17 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 				this->nomeArquivo.at(j) = nameFile;
 				j++;
 
-				freq = countFreq(diretorio+nameFile);
-				
+				freq = countFreq(diretorio + nameFile);
+
 				//Freq_Palavras << nameFile << "---> ";
-				 
+
 				for (int i = 0; i < freq.size(); i++)
 				{
 					Freq_Palavras << freq[this->words.at(i)] << " ";
 					this->freqWords[nameFile].push_back(freq[this->words.at(i)]);
 				}
 
-				Freq_Palavras << "BILL " << endl;
+				Freq_Palavras << "BILL" << endl;
 				nameFile = "";
 			}
 		} while (FindNextFile(hFind, &ffd) == TRUE);

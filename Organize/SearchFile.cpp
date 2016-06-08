@@ -40,7 +40,6 @@ vector<string> SearchFile::split(const string &s)
 			i = j;
 		}
 	}
-
 	return ret;
 }
 
@@ -82,19 +81,14 @@ void SearchFile::calcSim()
 	vector<double> aux = this->V, aux2;
 	double result = 0.0;
 
-	for (int i = 0; i < this->in.Get_qtdeArq(); i++)
-	{
-		sim[this->m.GetNameOfFiles().at(i)] = 0.0;
-	}
-
 	for (int i = 0; i < this->m.GetNameOfFiles().size(); i++)
 	{
 		aux2 = this->in.Get_U()[this->m.GetNameOfFiles().at(i)];
-
 		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, aux.size());
 	}
 
 	cout << endl << "Arquivos compativeis: " << endl;
+
 	for (int i = 0; i < sim.size(); i++)
 	{
 		if (sim[this->m.GetNameOfFiles().at(i)] > 0.0)

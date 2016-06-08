@@ -8,7 +8,8 @@ int Index::Get_qtdeArq()
 void Index::geraDF(int tamanho, mPaths m)
 {
 	this->wordSize = tamanho;
-	ifstream arq("Freq_Palavras.txt");
+	ifstream arq("Save/Freq_Palavras.txt");
+	ofstream d("Save/DF.txt");
 	int i = 0;
 	vector<int> DF(this->wordSize);
 	int freq = 0;
@@ -44,13 +45,27 @@ void Index::geraDF(int tamanho, mPaths m)
 		cout << "Erro ao abrir o arquivo !" << endl;
 	}
 
+	if (d.is_open())
+	{
+		for (int j = 0; j < this->wordSize; j++)
+		{
+			d << DF.at(j) << " ";
+		}
+	}
+	else
+	{
+		cout << "Bugo!" << endl;
+	}
+
 	arq.close();
+	d.close();
 
 	geraIDF(DF, m);
 }
 
 void Index::geraIDF(vector<int> df, mPaths m)
 {
+	ofstream idf("Save/IDF.txt");
 	int j = 0;
 	double aux = 0.0;
 
@@ -58,19 +73,34 @@ void Index::geraIDF(vector<int> df, mPaths m)
 
 	for (int i = 0; i < this->wordSize; i++)
 	{
-		aux = log2 (((double)this->qtdeArq)/((double)df.at(i)));
+		aux = log2(((double)this->qtdeArq) / ((double)df.at(i)));
 		this->IDF.at(i) = aux;
 		aux = 0.0;
 	}
+
+	if (idf.is_open())
+	{
+		for (int i = 0; i < this->IDF.size(); i++)
+		{
+			idf << this->IDF.at(i) << " ";
+		}
+	}
+	else
+	{
+		cout << "Erro ao salvar IDF." << endl;
+	}
+
+	idf.close();
 
 	geraU(m);
 }
 
 void Index::geraU(mPaths m)
 {
-	ifstream freq("Freq_Palavras.txt");
+	ifstream freq("Save/Freq_Palavras.txt");
+	//ofstream U("Save/TF_IDF.txt");
 	string word, nameFile;
-	int i = 0, aux = 0, j = 1, j1 = 0;
+	int i = 0, aux = 0, j = 1, j1 = 0, k = 0;
 
 	if (freq.is_open())
 	{
@@ -79,22 +109,26 @@ void Index::geraU(mPaths m)
 			freq >> word;
 			if (word.compare("BILL") != 0)
 			{
-				if (j1 != j)
+				/*if (j1 != j)
 				{
 					nameFile = m.GetNameOfFiles().at(j1);
+					U << nameFile << " ---> ";
 					j1++;
-				}
+				}*/
 
 				aux = stoi(word, nullptr, 10);
 
-				this->U[nameFile].push_back(this->IDF.at(i)*aux);
+				//U << this->IDF.at(i)*aux << " ";
+				this->U[m.GetNameOfFiles().at(k)].push_back(this->IDF.at(i)*aux);
 				i++;
-	
+
 			}
 			else
 			{
+				//U << endl;
 				i = 0;
-				j++;
+				//j++;
+				k++;
 			}
 		}
 	}
@@ -104,4 +138,5 @@ void Index::geraU(mPaths m)
 	}
 
 	freq.close();
+	//U.close();
 }
