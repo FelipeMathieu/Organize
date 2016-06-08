@@ -9,7 +9,6 @@ void Index::geraDF(int tamanho, mPaths m)
 {
 	this->wordSize = tamanho;
 	ifstream arq("Freq_Palavras.txt");
-	ofstream d("DF.txt");
 	int i = 0;
 	vector<int> DF(this->wordSize);
 	int freq = 0;
@@ -45,27 +44,13 @@ void Index::geraDF(int tamanho, mPaths m)
 		cout << "Erro ao abrir o arquivo !" << endl;
 	}
 
-	if (d.is_open())
-	{
-		for (int j = 0; j < this->wordSize; j++)
-		{
-			d << DF.at(j) << " ";
-		}
-	}
-	else
-	{
-		cout << "Bugo!" << endl;
-	}
-
 	arq.close();
-	d.close();
 
 	geraIDF(DF, m);
 }
 
 void Index::geraIDF(vector<int> df, mPaths m)
 {
-	ofstream idf("IDF.txt");
 	int j = 0;
 	double aux = 0.0;
 
@@ -78,31 +63,16 @@ void Index::geraIDF(vector<int> df, mPaths m)
 		aux = 0.0;
 	}
 
-	if (idf.is_open())
-	{
-		for (int i = 0; i < this->IDF.size(); i++)
-		{
-			idf << this->IDF.at(i) << " ";
-		}
-	}
-	else
-	{
-		cout << "Erro ao salvar IDF." << endl;
-	}
-
-	idf.close();
-
 	geraU(m);
 }
 
 void Index::geraU(mPaths m)
 {
 	ifstream freq("Freq_Palavras.txt");
-	ofstream U("TF_IDF.txt");
 	string word, nameFile;
 	int i = 0, aux = 0, j = 1, j1 = 0;
 
-	if (freq.is_open() && U.is_open())
+	if (freq.is_open())
 	{
 		while (!freq.eof())
 		{
@@ -112,20 +82,17 @@ void Index::geraU(mPaths m)
 				if (j1 != j)
 				{
 					nameFile = m.GetNameOfFiles().at(j1);
-					U << nameFile << " ---> ";
 					j1++;
 				}
 
 				aux = stoi(word, nullptr, 10);
 
-				U << this->IDF.at(i)*aux << " ";
 				this->U[nameFile].push_back(this->IDF.at(i)*aux);
 				i++;
 	
 			}
 			else
 			{
-				U << endl;
 				i = 0;
 				j++;
 			}
@@ -137,5 +104,4 @@ void Index::geraU(mPaths m)
 	}
 
 	freq.close();
-	U.close();
 }

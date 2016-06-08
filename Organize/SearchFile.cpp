@@ -99,9 +99,8 @@ void SearchFile::calcSim()
 	{
 		if (sim[this->m.GetNameOfFiles().at(i)] > 0.0)
 		{
-			cout << this->m.GetNameOfFiles().at(i) << " --> " << setiosflags(ios::fixed) << setprecision(2) << (sim[this->m.GetNameOfFiles().at(i)] * 100) << "%";
+			cout << this->m.GetNameOfFiles().at(i) << " --> " << setiosflags(ios::fixed) << setprecision(2) << (sim[this->m.GetNameOfFiles().at(i)] * 100) << "%" << endl;
 		}
-		cout << endl;
 	}
 }
 
