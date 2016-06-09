@@ -11,9 +11,9 @@ SearchFile::SearchFile(string p, mPaths m, Index in)
 	this->V.second = vector<double>(int(this->m.Get_Words().size()));
 	this->V.first = this->m.Get_Words();
 
-/*	for (int i = 0; i < this->m.Get_Words().size(); i++)
+	/*	for (int i = 0; i < this->m.Get_Words().size(); i++)
 	{
-		this->V[m.Get_Words().at(i)] = 0.0;
+	this->V[m.Get_Words().at(i)] = 0.0;
 	}*/
 }
 
@@ -82,8 +82,11 @@ void SearchFile::geraV(map<string, int> fPalavras)
 	{
 		aux = fPalavras[this->pesquisa.at(i)];
 		aux2 = this->in.Get_IDF()[this->pesquisa.at(i)];
-		j = find(this->V.first.begin(), this->V.first.end(), this->pesquisa.at(i)) - this->V.first.begin();
-		this->V.second.at(j) = aux * aux2;
+		if ((find(this->V.first.begin(), this->V.first.end(), this->pesquisa.at(i)) - this->V.first.begin()) < this->V.second.size())
+		{
+			j = find(this->V.first.begin(), this->V.first.end(), this->pesquisa.at(i)) - this->V.first.begin();
+			this->V.second.at(j) = aux * aux2;
+		}
 	}
 
 	this->calcSim();
@@ -99,7 +102,7 @@ void SearchFile::calcSim()
 
 	/*for (int i = 0; i < this->m.Get_Words().size(); i++)
 	{
-		aux.at(i) = this->V[this->m.Get_Words().at(i)];
+	aux.at(i) = this->V[this->m.Get_Words().at(i)];
 	}*/
 
 	aux = this->V.second;
@@ -126,7 +129,7 @@ void SearchFile::calcSim()
 double SearchFile::cosine_similarity(vector<double> A, vector<double> B, unsigned int Vector_Length)
 {
 	double dot = 0.0, denom_a = 0.0, denom_b = 0.0;
-	for (unsigned int i = 0u; i < Vector_Length; ++i) 
+	for (unsigned int i = 0u; i < Vector_Length; ++i)
 	{
 		dot += A.at(i) * B.at(i);
 		denom_a += A.at(i) * A.at(i);

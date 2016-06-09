@@ -35,18 +35,18 @@ void Index::geraDF(int tamanho, mPaths m)
 				}
 			}
 
-		/*	if (word.compare("BILL") != 0)
+			/*	if (word.compare("BILL") != 0)
 			{
-				freq = stoi(word, nullptr, 10);
-				if (freq > 0)
-				{
-					DF.at(i) += 1;
-				}
-				i++;
+			freq = stoi(word, nullptr, 10);
+			if (freq > 0)
+			{
+			DF.at(i) += 1;
+			}
+			i++;
 			}
 			else
 			{
-				i = 0;
+			i = 0;
 			}*/
 		}
 	}
@@ -98,9 +98,9 @@ void Index::geraU(mPaths m)
 			{
 				/*if (j1 != j)
 				{
-					nameFile = m.GetNameOfFiles().at(j1);
-					U << nameFile << " ---> ";
-					j1++;
+				nameFile = m.GetNameOfFiles().at(j1);
+				U << nameFile << " ---> ";
+				j1++;
 				}*/
 
 				aux = stoi(auxVector.at(i), nullptr, 10);
