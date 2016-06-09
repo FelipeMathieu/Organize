@@ -209,7 +209,7 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 					this->freqWords[nameFile].push_back(freq[this->words.at(i)]);
 				}
 
-				Freq_Palavras << "BILL" << endl;
+				Freq_Palavras << endl;
 				nameFile = "";
 			}
 		} while (FindNextFile(hFind, &ffd) == TRUE);

@@ -26,10 +26,6 @@ private:
 public:
 	int countPath(wchar_t *wC, string diretorio);
 	int countWordFile(string name);
-	int Get_nWords()
-	{
-		return this->words.size();
-	}
 	int Get_meAjuda()
 	{
 		return this->meAjuda;

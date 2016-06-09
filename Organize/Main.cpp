@@ -34,17 +34,17 @@ void main()
 
 	n = mP.countPath(d, w + '/');
 
-	ind.IndexS(n);
+	ind.IndexS(n, mP);
 
 	cout << "Numero de arquivos: " << ind.Get_qtdeArq() << endl;
 	cout << "Numero de palavras totais: " << mP.Get_meAjuda() << endl;
-	cout << "Numero de palavras nao repitidas: " << mP.Get_nWords() << endl << endl;
+	cout << "Numero de palavras nao repitidas: " << mP.Get_Words().size() << endl << endl;
 
 	cout << "Salvando..." << endl;
-	mP.gravaPalavras();
+	//mP.gravaPalavras();
 	mP.comparaPalavras(d, w + '/');
 
-	ind.geraDF(mP.Get_nWords(), mP);
+	ind.geraDF(mP.Get_Words().size(), mP);
 
 	cout << "Informe o que deseja procurar: ";
 	cin.ignore(256, '\n');

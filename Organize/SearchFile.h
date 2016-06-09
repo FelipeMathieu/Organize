@@ -11,8 +11,7 @@ private:
 	vector<string> pesquisa;
 	mPaths m;
 	Index in;
-	vector<double> V;
-
+	pair<vector<string>, vector<double>> V;
 	vector<string> split(const string &s);
 
 public:

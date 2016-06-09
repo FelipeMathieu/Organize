@@ -2,12 +2,19 @@
 
 SearchFile::SearchFile(string p, mPaths m, Index in)
 {
-	string aux;
+	//string aux;
 
 	this->m = m;
-	aux = this->m.filtraPalavra(p);
-	this->pesquisa = split(aux);
+	//aux = this->m.filtraPalavra(p);
+	this->pesquisa = split(this->m.filtraPalavra(p));
 	this->in = in;
+	this->V.second = vector<double>(int(this->m.Get_Words().size()));
+	this->V.first = this->m.Get_Words();
+
+/*	for (int i = 0; i < this->m.Get_Words().size(); i++)
+	{
+		this->V[m.Get_Words().at(i)] = 0.0;
+	}*/
 }
 
 SearchFile::~SearchFile()
@@ -46,19 +53,20 @@ vector<string> SearchFile::split(const string &s)
 void SearchFile::freqPesquisa()
 {
 	map<string, int> freqP;
-	int j = 0;
 	int count = 0;
+	vector<string> w = this->m.Get_Words();
 
-	for (int i = 0; i < this->m.Get_Words().size(); i++)
+	for (int i = 0; i < this->pesquisa.size(); i++)
 	{
-		for (int j = 0; j < this->pesquisa.size(); j++)
+		for (int j = 0; j < w.size(); j++)
 		{
-			if (this->pesquisa.at(j) == this->m.Get_Words().at(i))
+			if (this->pesquisa.at(i) == w.at(j))
 			{
 				count += 1;
+				break;
 			}
 		}
-		freqP.insert(make_pair(this->m.Get_Words().at(i), count));
+		freqP.insert(make_pair(this->pesquisa.at(i), count));
 		count = 0;
 	}
 
@@ -67,9 +75,15 @@ void SearchFile::freqPesquisa()
 
 void SearchFile::geraV(map<string, int> fPalavras)
 {
+	int aux = 0, j = 0;
+	double aux2 = 0.0;
+
 	for (int i = 0; i < fPalavras.size(); i++)
 	{
-		this->V.push_back(this->in.Get_IDF().at(i)*fPalavras[this->m.Get_Words().at(i)]);
+		aux = fPalavras[this->pesquisa.at(i)];
+		aux2 = this->in.Get_IDF()[this->pesquisa.at(i)];
+		j = find(this->V.first.begin(), this->V.first.end(), this->pesquisa.at(i)) - this->V.first.begin();
+		this->V.second.at(j) = aux * aux2;
 	}
 
 	this->calcSim();
@@ -78,12 +92,23 @@ void SearchFile::geraV(map<string, int> fPalavras)
 void SearchFile::calcSim()
 {
 	map<string, double> sim;
-	vector<double> aux = this->V, aux2;
+	vector<double> aux(int(this->m.Get_Words().size())), aux2;
 	double result = 0.0;
+	int k = 0, j = 0;
+	vector<string> u;
+
+	/*for (int i = 0; i < this->m.Get_Words().size(); i++)
+	{
+		aux.at(i) = this->V[this->m.Get_Words().at(i)];
+	}*/
+
+	aux = this->V.second;
+	u = this->in.Get_U().first;
 
 	for (int i = 0; i < this->m.GetNameOfFiles().size(); i++)
 	{
-		aux2 = this->in.Get_U()[this->m.GetNameOfFiles().at(i)];
+		j = find(u.begin(), u.end(), m.GetNameOfFiles().at(i)) - u.begin();
+		aux2 = this->in.Get_U().second.at(j);
 		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, aux.size());
 	}
 
@@ -101,7 +126,8 @@ void SearchFile::calcSim()
 double SearchFile::cosine_similarity(vector<double> A, vector<double> B, unsigned int Vector_Length)
 {
 	double dot = 0.0, denom_a = 0.0, denom_b = 0.0;
-	for (unsigned int i = 0u; i < Vector_Length; ++i) {
+	for (unsigned int i = 0u; i < Vector_Length; ++i) 
+	{
 		dot += A.at(i) * B.at(i);
 		denom_a += A.at(i) * A.at(i);
 		denom_b += B.at(i) * B.at(i);
