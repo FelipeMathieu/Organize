@@ -81,10 +81,11 @@ void SearchFile::geraV(map<string, int> fPalavras)
 	for (int i = 0; i < fPalavras.size(); i++)
 	{
 		aux = fPalavras[this->pesquisa.at(i)];
-		aux2 = this->in.Get_IDF()[this->pesquisa.at(i)];
+		//aux2 = this->in.Get_IDF()[this->pesquisa.at(i)];
 		if ((find(this->V.first.begin(), this->V.first.end(), this->pesquisa.at(i)) - this->V.first.begin()) < this->V.second.size())
 		{
 			j = find(this->V.first.begin(), this->V.first.end(), this->pesquisa.at(i)) - this->V.first.begin();
+			aux2 = this->in.Get_IDF().at(j);
 			this->V.second.at(j) = aux * aux2;
 		}
 	}
@@ -106,12 +107,13 @@ void SearchFile::calcSim()
 	}*/
 
 	aux = this->V.second;
-	u = this->in.Get_U().first;
+	//u = this->in.Get_U().first;
 
 	for (int i = 0; i < this->m.GetNameOfFiles().size(); i++)
 	{
 		j = find(u.begin(), u.end(), m.GetNameOfFiles().at(i)) - u.begin();
-		aux2 = this->in.Get_U().second.at(j);
+		aux2 = this->in.Get_U().second.at(i);
+		//aux2 = this->in.Get_U()[this->m.GetNameOfFiles().at(i)];
 		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, aux.size());
 	}
 

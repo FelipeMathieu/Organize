@@ -35,18 +35,18 @@ void Index::geraDF(int tamanho, mPaths m)
 				}
 			}
 
-			/*	if (word.compare("BILL") != 0)
+			/*if (word.compare("BILL") != 0)
 			{
-			freq = stoi(word, nullptr, 10);
-			if (freq > 0)
-			{
-			DF.at(i) += 1;
-			}
-			i++;
+				freq = stoi(word, nullptr, 10);
+				if (freq > 0)
+				{
+					DF.at(i) += 1;
+				}
+				i++;
 			}
 			else
 			{
-			i = 0;
+				i = 0;
 			}*/
 		}
 	}
@@ -70,7 +70,7 @@ void Index::geraIDF(vector<int> df, mPaths m)
 	for (int i = 0; i < this->wordSize; i++)
 	{
 		aux = log2(((double)this->qtdeArq) / ((double)df.at(i)));
-		this->IDF[m.Get_Words().at(i)] = aux;
+		this->IDF.at(i) = aux;
 		aux = 0.0;
 	}
 
@@ -105,7 +105,7 @@ void Index::geraU(mPaths m)
 
 				aux = stoi(auxVector.at(i), nullptr, 10);
 				j = find(this->U.first.begin(), this->U.first.end(), m.GetNameOfFiles().at(k)) - this->U.first.begin();
-				this->U.second.at(j).push_back(this->IDF[m.Get_Words().at(i)] * aux);
+				this->U.second.at(j).push_back(this->IDF.at(i) * aux);
 
 				//U << this->IDF.at(i)*aux << " ";
 				//this->U[m.GetNameOfFiles().at(k)].push_back(this->IDF[m.Get_Words().at(i)] * aux);
@@ -114,6 +114,24 @@ void Index::geraU(mPaths m)
 			}
 			k++;
 		}
+
+		/*while (!freq.eof())
+		{
+			freq >> word;
+			if (word.compare("BILL") != 0)
+			{
+				aux = stoi(word, nullptr, 10);
+
+				//this->U.second.at(j).push_back(this->IDF[m.Get_Words().at(i)] * aux);
+				this->U[m.GetNameOfFiles().at(j)].push_back(this->IDF[m.Get_Words().at(i)] * aux);
+				i++;
+			}
+			else
+			{
+				j++;
+				i = 0;
+			}
+		}*/
 	}
 	else
 	{
