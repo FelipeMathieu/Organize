@@ -20,7 +20,7 @@ private:
 	vector<double> IDFg;
 	vector<string> words;
 	pair<vector<string>, vector<vector<double>>> Ug;
-	map<string, vector<int>> freqWords;
+	pair<vector<string>, vector<vector<int>>> freqWords;
 
 	vector<string> split(const string &s);
 public:
@@ -48,7 +48,7 @@ public:
 	{
 		return this->Ug;
 	}
-	map<string, vector<int>> Get_FreqG()
+	pair<vector<string>, vector<vector<int>>> Get_FreqG()
 	{
 		return this->freqWords;
 	}

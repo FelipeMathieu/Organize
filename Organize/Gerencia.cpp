@@ -115,6 +115,9 @@ Gerencia *Gerencia::newG()
 	}
 	p = "";
 
+	this->freqWords.first = this->nameFiles;
+	this->freqWords.second = vector<vector<int>>(this->nameFiles.size());
+
 	if (Freq_Palavras.is_open())
 	{
 		while (getline(Freq_Palavras, p))
@@ -123,7 +126,11 @@ Gerencia *Gerencia::newG()
 			for (int i = 0; i < aux3.size(); i++)
 			{
 				//aux4.push_back(stoi(aux3.at(i), nullptr, 10));
-				this->freqWords[this->Get_NameFiles().at(j)].push_back(stoi(aux3.at(i), nullptr, 10));
+				//this->freqWords[this->Get_NameFiles().at(j)].push_back(stoi(aux3.at(i), nullptr, 10));
+				if ((find(this->freqWords.first.begin(), this->freqWords.first.end(), this->nameFiles.at(j)) - this->freqWords.first.begin()) < this->freqWords.first.size())
+				{
+					this->freqWords.second.at((find(this->freqWords.first.begin(), this->freqWords.first.end(), this->nameFiles.at(j)) - this->freqWords.first.begin())).push_back(stoi(aux3.at(i), nullptr, 10));
+				}
 			}
 			j++;
 		}

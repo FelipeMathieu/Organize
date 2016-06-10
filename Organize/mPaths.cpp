@@ -177,11 +177,14 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 	string nameFile;
 	wstring nome;
 	ofstream Freq_Palavras("Save/Freq_Palavras.txt");
-	map<string, int> freq;
-	int j = 0;
+	vector<int> freq;
+	int j = 0, k = 0;
+
 
 	//this->freqWords = map<string, int>(this->nFiles, this->Get_nWords());
 	this->nomeArquivo = vector<string>(this->nFiles);
+	this->freqWords.first = vector<string>(this->nFiles);
+	this->freqWords.second = vector<vector<int>>(this->nFiles);
 
 	hFind = FindFirstFile(file, &ffd);
 
@@ -197,7 +200,7 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 				nome = ffd.cFileName;
 				nameFile.append(nome.begin(), nome.end());
 				this->nomeArquivo.at(j) = nameFile;
-				j++;
+				this->freqWords.first.at(j) = nameFile;
 
 				freq = countFreq(diretorio + nameFile);
 
@@ -205,10 +208,13 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 
 				for (int i = 0; i < freq.size(); i++)
 				{
-					Freq_Palavras << freq[this->words.at(i)] << " ";
-					this->freqWords[nameFile].push_back(freq[this->words.at(i)]);
+					Freq_Palavras << freq.at(i) << " ";
+					//this->freqWords[nameFile].push_back(freq[this->words.at(i)]);
+					//if(find(this->freqWords.first.begin(), this->freqWords.first.end(), ))
+					//this->freqWords.second.at(j).push_back(freq.at(i));
 				}
-
+				this->freqWords.second.at(j) = freq;
+				j++;
 				Freq_Palavras << endl;
 				nameFile = "";
 			}
@@ -223,11 +229,11 @@ void mPaths::comparaPalavras(wchar_t *wC, string diretorio)
 	Freq_Palavras.close();
 }
 
-map<string, int> mPaths::countFreq(string nomeArquivo)
+vector<int> mPaths::countFreq(string nomeArquivo)
 {
 	ifstream arq(nomeArquivo);
 	string word;
-	map<string, int> freq;
+	vector<int> freq;
 	vector<string> aux;
 	int count = 0;
 
@@ -242,7 +248,7 @@ map<string, int> mPaths::countFreq(string nomeArquivo)
 	}
 	arq.close();
 
-	for (int i = 0; i < this->words.size(); i++)
+	/*for (int i = 0; i < this->words.size(); i++)
 	{
 		for (int j = 0; j < aux.size(); j++)
 		{
@@ -252,6 +258,22 @@ map<string, int> mPaths::countFreq(string nomeArquivo)
 			}
 		}
 		freq.insert(make_pair(this->words.at(i), count));
+		count = 0;
+	}*/
+
+	for (int i = 0; i < this->words.size(); i++)
+	{
+		//if(find(this->words.begin(), this->words.end(), word.at(i)) == end)
+		//countX = countWord(this->words, aux.at(i));
+		//countX = count(this->words.begin(), this->words.end(), aux.at(i));
+		for (int j = 0; j < aux.size(); j++)
+		{
+			if (aux.at(j) == this->words.at(i))
+			{
+				count += 1;
+			}
+		}
+		freq.push_back(count);
 		count = 0;
 	}
 

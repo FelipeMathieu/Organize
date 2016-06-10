@@ -90,15 +90,15 @@ void Index::geraIDF(vector<int> df)
 
 void Index::geraU()
 {
-	ifstream freq("Save/Freq_Palavras.txt");
+	//ifstream freq("Save/Freq_Palavras.txt");
 	ofstream U("Save/TF_IDF.txt");
 	string word, nameFile;
 	int i = 0, aux = 0, j = 0, k = 0;
 	vector<string> auxVector;
 
-	if (freq.is_open() && U.is_open())
+	if (U.is_open())
 	{
-		while (getline(freq, word).good())
+		/*while (getline(freq, word).good())
 		{
 			//freq >> word;
 			//cin.ignore(256, '\n');
@@ -112,7 +112,7 @@ void Index::geraU()
 				nameFile = m.GetNameOfFiles().at(j1);
 				U << nameFile << " ---> ";
 				j1++;
-				}*/
+				}
 
 				aux = stoi(auxVector.at(i), nullptr, 10);
 				j = find(this->U.first.begin(), this->U.first.end(), this->nomeArquivo.at(k)) - this->U.first.begin();
@@ -124,6 +124,16 @@ void Index::geraU()
 				//k++;
 			}
 			k++;
+			U << endl;
+		}*/
+
+		for (int i = 0; i < this->freqWords.first.size(); i++)
+		{
+			for (int j = 0; j < this->freqWords.second.at(i).size(); j++)
+			{
+				this->U.second.at(i).push_back(this->IDF.at(j)*this->freqWords.second.at(i).at(j));
+				U << this->U.second.at(i).at(j) << " ";
+			}
 			U << endl;
 		}
 
@@ -150,7 +160,7 @@ void Index::geraU()
 		cout << "Erro!" << endl;
 	}
 
-	freq.close();
+	//freq.close();
 	U.close();
 }
 

@@ -19,7 +19,7 @@ private:
 	int nPath;
 	vector<string> words;
 	vector<string> nomeArquivo;
-	map<string, vector<int>> freqWords;
+	pair<vector<string>, vector<vector<int>>> freqWords;
 	int meAjuda = 0;
 	int nFiles;
 
@@ -34,12 +34,12 @@ public:
 	string filtraPalavra(string p);
 	int verificaPalavra(string p);
 	void comparaPalavras(wchar_t *wC, string diretorio);
-	map<string, int> countFreq(string nomeArquivo);
+	vector<int> countFreq(string nomeArquivo);
 	vector<string> GetNameOfFiles()
 	{
 		return this->nomeArquivo;
 	}
-	map<string, vector<int>> GetfreqWords()
+	pair<vector<string>, vector<vector<int>>> GetfreqWords()
 	{
 		return this->freqWords;
 	}

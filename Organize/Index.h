@@ -12,7 +12,7 @@ private:
 	pair<vector<string>, vector<vector<double>>> U;
 	vector<string> words;
 	vector<string> nomeArquivo;
-	map<string, vector<int>> freqWords;
+	pair<vector<string>, vector<vector<int>>> freqWords;
 	int wordSize;
 
 	vector<string> split(const string &s);
@@ -53,7 +53,7 @@ public:
 	{
 		return this->nomeArquivo;
 	}
-	map<string, vector<int>> GetfreqWords()
+	pair<vector<string>, vector<vector<int>>> GetfreqWords()
 	{
 		return this->freqWords;
 	}
