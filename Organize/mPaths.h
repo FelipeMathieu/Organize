@@ -45,7 +45,7 @@ public:
 	}
 	vector<string> Get_Words()
 	{
-		return words;
+		return this->words;
 	}
 
 	mPaths();

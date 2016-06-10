@@ -9,13 +9,14 @@ class SearchFile
 {
 private:
 	vector<string> pesquisa;
-	mPaths m;
 	Index in;
 	pair<vector<string>, vector<double>> V;
 	vector<string> split(const string &s);
 
+	string filtraPalavra(string p);
+
 public:
-	SearchFile(string p, mPaths m, Index in);
+	SearchFile(string p, Index in);
 	~SearchFile();
 	void geraV(map<string, int> fPalavras);
 	void freqPesquisa();

@@ -5,10 +5,10 @@ int Index::Get_qtdeArq()
 	return this->qtdeArq;
 }
 
-void Index::geraDF(int tamanho, mPaths m)
+void Index::geraDF(int tamanho)
 {
 	this->wordSize = tamanho;
-	this->U.first = m.GetNameOfFiles();
+	this->U.first = this->nomeArquivo;
 	ifstream arq("Save/Freq_Palavras.txt");
 	//ofstream d("Save/DF.txt");
 	int i = 0;
@@ -57,35 +57,46 @@ void Index::geraDF(int tamanho, mPaths m)
 
 	arq.close();
 
-	geraIDF(DF, m);
+	geraIDF(DF);
 }
 
-void Index::geraIDF(vector<int> df, mPaths m)
+void Index::geraIDF(vector<int> df)
 {
 	int j = 0;
 	double aux = 0.0;
+	ofstream idf("Save/IDF.txt");
 
 	//this->IDF = vector<double>(this->wordSize);
 
-	for (int i = 0; i < this->wordSize; i++)
+	if (idf.is_open())
 	{
-		aux = log2(((double)this->qtdeArq) / ((double)df.at(i)));
-		this->IDF.at(i) = aux;
-		aux = 0.0;
+
+		for (int i = 0; i < this->wordSize; i++)
+		{
+			aux = log2(((double)this->qtdeArq) / ((double)df.at(i)));
+			this->IDF.at(i) = aux;
+			idf << this->IDF.at(i) << " ";
+			aux = 0.0;
+		}
+	}
+	else
+	{
+		cout << "Erro." << endl;
 	}
 
-	geraU(m);
+	idf.close();
+	geraU();
 }
 
-void Index::geraU(mPaths m)
+void Index::geraU()
 {
 	ifstream freq("Save/Freq_Palavras.txt");
-	//ofstream U("Save/TF_IDF.txt");
+	ofstream U("Save/TF_IDF.txt");
 	string word, nameFile;
 	int i = 0, aux = 0, j = 0, k = 0;
 	vector<string> auxVector;
 
-	if (freq.is_open())
+	if (freq.is_open() && U.is_open())
 	{
 		while (getline(freq, word).good())
 		{
@@ -104,15 +115,16 @@ void Index::geraU(mPaths m)
 				}*/
 
 				aux = stoi(auxVector.at(i), nullptr, 10);
-				j = find(this->U.first.begin(), this->U.first.end(), m.GetNameOfFiles().at(k)) - this->U.first.begin();
+				j = find(this->U.first.begin(), this->U.first.end(), this->nomeArquivo.at(k)) - this->U.first.begin();
 				this->U.second.at(j).push_back(this->IDF.at(i) * aux);
 
-				//U << this->IDF.at(i)*aux << " ";
+				U << this->IDF.at(k)*aux << " ";
 				//this->U[m.GetNameOfFiles().at(k)].push_back(this->IDF[m.Get_Words().at(i)] * aux);
 				//this->U[nameFile].push_back(this->IDF[m.Get_Words().at(i)] * aux);
 				//k++;
 			}
 			k++;
+			U << endl;
 		}
 
 		/*while (!freq.eof())
@@ -139,7 +151,7 @@ void Index::geraU(mPaths m)
 	}
 
 	freq.close();
-	//U.close();
+	U.close();
 }
 
 vector<string> Index::split(const string &s)

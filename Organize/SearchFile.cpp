@@ -1,15 +1,15 @@
 #include "SearchFile.h"
 
-SearchFile::SearchFile(string p, mPaths m, Index in)
+SearchFile::SearchFile(string p, Index in)
 {
 	//string aux;
 
-	this->m = m;
+	//this->m = m;
 	//aux = this->m.filtraPalavra(p);
-	this->pesquisa = split(this->m.filtraPalavra(p));
+	this->pesquisa = split(this->filtraPalavra(p));
 	this->in = in;
-	this->V.second = vector<double>(int(this->m.Get_Words().size()));
-	this->V.first = this->m.Get_Words();
+	this->V.second = vector<double>(int(this->in.Get_Words().size()));
+	this->V.first = this->in.Get_Words();
 
 	/*	for (int i = 0; i < this->m.Get_Words().size(); i++)
 	{
@@ -54,7 +54,7 @@ void SearchFile::freqPesquisa()
 {
 	map<string, int> freqP;
 	int count = 0;
-	vector<string> w = this->m.Get_Words();
+	vector<string> w = this->in.Get_Words();
 
 	for (int i = 0; i < this->pesquisa.size(); i++)
 	{
@@ -96,7 +96,7 @@ void SearchFile::geraV(map<string, int> fPalavras)
 void SearchFile::calcSim()
 {
 	map<string, double> sim;
-	vector<double> aux(int(this->m.Get_Words().size())), aux2;
+	vector<double> aux(int(this->in.Get_Words().size())), aux2;
 	double result = 0.0;
 	int k = 0, j = 0;
 	vector<string> u;
@@ -109,21 +109,21 @@ void SearchFile::calcSim()
 	aux = this->V.second;
 	//u = this->in.Get_U().first;
 
-	for (int i = 0; i < this->m.GetNameOfFiles().size(); i++)
+	for (int i = 0; i < this->in.GetNameOfFiles().size(); i++)
 	{
-		j = find(u.begin(), u.end(), m.GetNameOfFiles().at(i)) - u.begin();
+		j = find(u.begin(), u.end(), in.GetNameOfFiles().at(i)) - u.begin();
 		aux2 = this->in.Get_U().second.at(i);
 		//aux2 = this->in.Get_U()[this->m.GetNameOfFiles().at(i)];
-		sim[this->m.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, aux.size());
+		sim[this->in.GetNameOfFiles().at(i)] = cosine_similarity(aux, aux2, aux.size());
 	}
 
 	cout << endl << "Arquivos compativeis: " << endl;
 
 	for (int i = 0; i < sim.size(); i++)
 	{
-		if (sim[this->m.GetNameOfFiles().at(i)] > 0.0)
+		if (sim[this->in.GetNameOfFiles().at(i)] > 0.0)
 		{
-			cout << this->m.GetNameOfFiles().at(i) << " --> " << setiosflags(ios::fixed) << setprecision(2) << (sim[this->m.GetNameOfFiles().at(i)] * 100) << "%" << endl;
+			cout << this->in.GetNameOfFiles().at(i) << " --> " << setiosflags(ios::fixed) << setprecision(2) << (sim[this->in.GetNameOfFiles().at(i)] * 100) << "%" << endl;
 		}
 	}
 }
@@ -138,4 +138,18 @@ double SearchFile::cosine_similarity(vector<double> A, vector<double> B, unsigne
 		denom_b += B.at(i) * B.at(i);
 	}
 	return dot / (sqrt(denom_a) * sqrt(denom_b));
+}
+
+string SearchFile::filtraPalavra(string p)
+{
+	char c[] = "().,;:{}[]";
+
+	for (unsigned int i = 0; i < p.size(); ++i)
+	{
+		p.erase(remove(p.begin(), p.end(), c[i]), p.end());
+	}
+
+	transform(p.begin(), p.end(), p.begin(), tolower);
+
+	return p;
 }

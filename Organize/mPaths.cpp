@@ -67,7 +67,7 @@ int mPaths::countPath(wchar_t *wC, string diretorio)
 					countP++;
 					//cout << "Numero de palavras no arquivos: " << cW << endl << endl;
 					cW = 0;
-					NameFiles << nameFile << endl;
+					NameFiles << nameFile << " ";
 					nameFile = "";
 				}
 			}
