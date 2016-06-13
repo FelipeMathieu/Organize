@@ -70,7 +70,6 @@ void Index::geraIDF(vector<int> df)
 
 	if (idf.is_open())
 	{
-
 		for (int i = 0; i < this->wordSize; i++)
 		{
 			aux = log2(((double)this->qtdeArq) / ((double)df.at(i)));
